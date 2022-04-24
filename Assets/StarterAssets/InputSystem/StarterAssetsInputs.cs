@@ -10,6 +10,7 @@ namespace StarterAssets
 		[Header("Character Input Values")]
 		public Vector2 move;
 		public Vector2 look;
+        public Vector2 look2;
 		public bool jump;
 		public bool sprint;
 
@@ -18,8 +19,8 @@ namespace StarterAssets
 
 #if !UNITY_IOS || !UNITY_ANDROID
 		[Header("Mouse Cursor Settings")]
-		public bool cursorLocked = true;
-		public bool cursorInputForLook = true;
+		public bool cursorLocked = false;
+		public bool cursorInputForLook = false;
 #endif
 
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
@@ -60,7 +61,12 @@ namespace StarterAssets
 			look = newLookDirection;
 		}
 
-		public void JumpInput(bool newJumpState)
+        public void LookInput2(Vector2 newLookDirection)
+        {
+            look2 = newLookDirection;
+        }
+
+        public void JumpInput(bool newJumpState)
 		{
 			jump = newJumpState;
 		}
