@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class LeverScript : MonoBehaviour
 {
+    public GameObject Door;
     int shouldShutDoor = 0;
-
+    
     void Start()
     {
         
@@ -25,6 +26,7 @@ public class LeverScript : MonoBehaviour
     {
         if (Input.GetKeyDown("e") && shouldShutDoor==1)
         {
+            Destroy(Door);
             Destroy(gameObject);
         }
     }
