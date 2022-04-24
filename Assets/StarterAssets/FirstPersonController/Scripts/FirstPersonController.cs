@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using StarterAssets;
+using StarterAsset;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
 #endif
@@ -68,7 +68,7 @@ using UnityEngine.InputSystem;
 		private const float _threshold = 0.01f;
 
         private Rigidbody rigidbody;
-        private StarterAssets.StarterAssets playerInputActions;
+        private StarterAsset.StarterAssets playerInputActions;
 
 
         private void Awake()
@@ -79,7 +79,7 @@ using UnityEngine.InputSystem;
         {
             _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         }
-            playerInputActions = new StarterAssets.StarterAssets();
+            playerInputActions = new StarterAsset.StarterAssets();
 
             playerInputActions.Player.Enable();
             playerInputActions.Player.Jump.performed += Jump_performed;
