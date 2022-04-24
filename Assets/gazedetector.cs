@@ -15,7 +15,7 @@ public class gazedetector : MonoBehaviour
     public Transform target;
     public GameObject textbox;
     public Text text;
-    public Transform t_trans;
+    Transform t_trans;
     public string output;
     public string output2;
     //Get the GameObject’s mesh renderer to access the GameObject’s material and color
@@ -33,31 +33,53 @@ public class gazedetector : MonoBehaviour
     bool npc_play = false;
     bool last_flag = false;
     bool looking = false;
+    bool complete = false;
+    bool on = false;
+    bool active = false;
 
     void MoveOut(int dir)
     {
         switch (Mathf.Abs(dir))
         {
             case 1:
-                if (Mathf.Abs(start_pos.x - transform.position.x) < 15)
+                if (Mathf.Abs(start_pos.x - transform.position.x) < 15 && !complete)
                 {
-                    transform.position = transform.position + new Vector3((dir / Mathf.Abs(dir)) * mod_val, 0, 0);
+                    transform.position = transform.position + new Vector3((dir / Mathf.Abs(dir))*mod_val, 0, 0);
+                }
+                else
+                {
+                    on = true;
+                    active = false;
                 }
                 break;
 
+
             case 2:
-                if (Mathf.Abs(start_pos.y - transform.position.y) < 15)
+                if (Mathf.Abs(start_pos.y - transform.position.y) < 15 && !complete)
                 {
                     transform.position = transform.position + new Vector3(0, (dir / Mathf.Abs(dir)) * mod_val, 0);
                 }
+                else
+                {
+                    on = true;
+                    active = false;
+                }
                 break;
+
             case 3:
-                if (Mathf.Abs(start_pos.z - transform.position.z) < 15)
+                if (Mathf.Abs(start_pos.z - transform.position.z) < 15 && !complete)
                 {
                     transform.position = transform.position + new Vector3(0, 0, (dir / Mathf.Abs(dir)) * mod_val);
                 }
+                else
+                {
+                    on = true;
+                    active = false;
+                }
                 break;
         }
+
+        
         
     }
 
@@ -71,6 +93,12 @@ public class gazedetector : MonoBehaviour
                 {
                     transform.position = transform.position - new Vector3((dir / Mathf.Abs(dir)) * mod_val, 0, 0);
                 }
+                else
+                {
+                    on = false;
+                    active = false;
+                }
+                
                 break;
 
             case 2:
@@ -78,11 +106,21 @@ public class gazedetector : MonoBehaviour
                 {
                     transform.position = transform.position - new Vector3(0, (dir / Mathf.Abs(dir)) * mod_val, 0);
                 }
+                else
+                {
+                    on = false;
+                    active = false;
+                }
                 break;
             case 3:
                 if (Mathf.Abs(start_pos.z - transform.position.z) > 1)
                 {
                     transform.position = transform.position - new Vector3(0, 0, (dir / Mathf.Abs(dir)) * mod_val);
+                }
+                else
+                {
+                    on = false;
+                    active = false;
                 }
                 break;
         }
@@ -97,7 +135,7 @@ public class gazedetector : MonoBehaviour
     {
         if (!npc_finish)
         {
-            if (slide < 600)
+            if (slide < 800)
             {
                 text_up(output);
                 transform.LookAt(target);
@@ -166,7 +204,7 @@ public class gazedetector : MonoBehaviour
         {
             explode_time += 1;
         }
-        if (explode_time >= 600)
+        if (explode_time >= 300)
         {
             if (!npc2_end)
             {
@@ -242,6 +280,7 @@ public class gazedetector : MonoBehaviour
             child.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
             text.text = "";
         }
+
     }
 
     void Update()
@@ -261,15 +300,31 @@ public class gazedetector : MonoBehaviour
 
         if (!looking)
         {
-            if (behavior <= 3)
-            {
-                MoveBack(behavior);
-            }
-            else if (behavior == 5)
+
+            if (behavior == 5)
             {
                 Rotation();
             }
         }
+         if (active)
+         {
+             if (!on)
+             {
+                 MoveOut(behavior);
+             }
+             else
+             {
+                 MoveBack(behavior);
+             }    
+                
+         }
+        
+
+
+
+            
+        
+        
     }
 
     void OnMouseOver()
@@ -284,10 +339,13 @@ public class gazedetector : MonoBehaviour
             child = this.gameObject.transform.GetChild(i).gameObject;
             child.GetComponent<MeshRenderer>().material.color = m_MouseOverColor;
         }
-        if (behavior<=3){
-            MoveOut(behavior);
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            active = true;
         }
-        else if (behavior == 4 || behavior == 6)
+
+            if (behavior == 4 || behavior == 6)
         {
             if (stare_time >= 60)
             {
