@@ -135,7 +135,7 @@ public class gazedetector : MonoBehaviour
     {
         if (!npc_finish)
         {
-            if (slide < 800)
+            if (slide < 600)
             {
                 text_up(output);
                 transform.LookAt(target);
