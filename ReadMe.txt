@@ -34,3 +34,8 @@ For StareTest.exe:
 	and take note of the pixel distance calculations displayed. Convert these values to inches, and measure the distance from your
 	screen to you in the position you have calibrated for. Use the degree variant of arctan(pixel_to_inches/distance_to_face) to find
 	the estimation in degrees of how far off your eye tracking is. Multiple tests are recommended.
+
+Initialization Error:
+	On launch there will be an error indicating that there is no namespace StarterAsset. To fix that, go into StarterAssets.cs
+	and below the using lines add, namespace StarterAsset {
+	and at the very bottom of the file add a }
